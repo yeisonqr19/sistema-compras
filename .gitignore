@@ -1,0 +1,53 @@
+# Entorno virtual
+env/
+venv/
+ENV/
+.venv/
+
+# Archivos de entorno (variables secretas)
+.env
+.env.*
+
+# Archivos de bases de datos locales
+*.sqlite3
+
+# Archivos de caché de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos temporales o de logs
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de configuración de IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Migraciones (opcional, si prefieres no subirlas al principio)
+**/migrations/
+!**/migrations/__init__.py
+
+# Archivos de compilación de frontend (si usas Tailwind o npm)
+node_modules/
+dist/
+build/
+
+# Archivos de cobertura de tests
+htmlcov/
+.coverage
+coverage.xml
+
+# Archivos de lock o backup
+*.bak
+*.swp
+*.lock
