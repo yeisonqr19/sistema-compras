@@ -5,5 +5,5 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 class HomeView(LoginRequiredMixin, TemplateView):  
     template_name = "home/home.html"
-    login_url = "/admin/"
+    login_url = "/login/"
     
