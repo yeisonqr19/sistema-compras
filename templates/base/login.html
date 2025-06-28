@@ -31,6 +31,27 @@
                   
                   <small class="text-danger">
                     
+                    {% if form.errors %}
+                      {% for field in form %}
+
+                        {% if field.errors %}
+
+                        {% for error in field.errors %}
+                        {{error|escape}}
+                        {% endfor %}
+
+                        {% endif %}
+
+                      {% endfor %}
+                    {% endif %}
+
+                    {% if form.non_field_errors %}
+
+                        {% for error in form.non_field_errors %}
+                        {{error|escape}}
+                        {% endfor %}                      
+                    {% endif %}
+
                   </small>
 
                 </div>
