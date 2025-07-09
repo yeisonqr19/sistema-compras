@@ -9,7 +9,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     # Configuracion de la ruta de autenticacion con las vistas que trae django incluidas:
-    path('', include('home.urls'), name="home"),
+    path('', include('home.urls')),
+    
+    path('inventario/', include('inventario.urls')),
     
     path('login/', auth_views.LoginView.as_view(template_name="base/login.html"), name="login"),
     
