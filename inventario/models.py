@@ -4,6 +4,7 @@ from home.models import Modelo
 # Create your models here.
 
 class Categoria (Modelo):
+    
     descripcion = models.CharField(max_length=100, help_text="Descripcion de la nueva categoria", unique=True)
     
     def __str__(self):
@@ -18,6 +19,7 @@ class Categoria (Modelo):
         verbose_name_plural = "categorias"
         
 class SubCategoria(Modelo):
+    
     categoriapadre = models.ForeignKey(Categoria, on_delete=models.CASCADE, null=True, blank=True)
     
     descripcion = models.CharField(max_length=100, help_text="Descripcion de la nueva subcategoria")
@@ -35,3 +37,18 @@ class SubCategoria(Modelo):
         verbose_name = "sub categoria"
         verbose_name_plural = "Sub categorias"
         unique_together = ('categoriapadre', 'descripcion')
+        
+class Marca(Modelo):
+    
+    descripcion = models.CharField(max_length=100, help_text="Nombre de la marca", unique=True)
+    
+    def __str__(self):
+        return f'{self.descripcion}'
+    
+    def save(self, **args):
+        self.descripcion = self.descripcion.upper()
+        super(Marca, self).save(**args)
+    
+    class Meta:
+        verbose_name = "Marca"
+        verbose_name_plural = "Marcas"

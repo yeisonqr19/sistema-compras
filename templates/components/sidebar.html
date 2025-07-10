@@ -51,7 +51,7 @@
     >
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Catalogos del inventario</h6>
-        <a class="collapse-item" href="{% url 'inventario:categorias' %}">Categorias</a>
+        <a class="collapse-item {% if '/categorias/' in request.path %}active{% endif %}" href="{% url 'inventario:categorias' %}">Categorias</a>
         <a class="collapse-item" href="{% url 'inventario:subcategorias' %}">Sub Categorias</a>
       </div>
     </div>
@@ -77,9 +77,9 @@
       data-parent="#accordionSidebar"
     >
       <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Custom Utilities:</h6>
-        <a class="collapse-item" href="utilities-color.html">Colors</a>
-        <a class="collapse-item" href="utilities-border.html">Borders</a>
+        <h6 class="collapse-header">Items de los productos:</h6>
+        <a class="collapse-item" href="{% url 'inventario:marcas' %}">Marcas</a>
+        <a class="collapse-item" href="utilities-border.html">Unidades de medida</a>
         <a class="collapse-item" href="utilities-animation.html">Animations</a>
         <a class="collapse-item" href="utilities-other.html">Other</a>
       </div>
@@ -93,9 +93,9 @@
   <div class="sidebar-heading">Addons</div>
 
   <!-- Nav Item - Pages Collapse Menu -->
-  <li class="nav-item active">
+  <li class="nav-item">
     <a
-      class="nav-link"
+      class="nav-link collapsed"
       href="#"
       data-toggle="collapse"
       data-target="#collapsePages"
@@ -107,7 +107,7 @@
     </a>
     <div
       id="collapsePages"
-      class="collapse show"
+      class="collapse"
       aria-labelledby="headingPages"
       data-parent="#accordionSidebar"
     >
@@ -119,7 +119,7 @@
         <div class="collapse-divider"></div>
         <h6 class="collapse-header">Other Pages:</h6>
         <a class="collapse-item" href="404.html">404 Page</a>
-        <a class="collapse-item active" href="blank.html">Blank Page</a>
+        <a class="collapse-item" href="blank.html">Blank Page</a>
       </div>
     </div>
   </li>

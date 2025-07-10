@@ -1,0 +1,100 @@
+{% extends "base/base.html" %} 
+
+{% block pagecontent %}
+
+<div class="card shadow mb-4">
+  <!-- Card Header - Dropdown -->
+  <div
+    class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+  >
+    <h6 class="m-0 font-weight-bold text-primary">Lista de Marcas</h6>
+    <div class="dropdown no-arrow">
+      <a
+        class="dropdown-toggle"
+        href="#"
+        role="button"
+        id="dropdownMenuLink"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+      </a>
+      <div
+        class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+        aria-labelledby="dropdownMenuLink"
+      >
+        <div class="dropdown-header">Acciones:</div>
+        <a class="dropdown-item" href="{% url 'inventario:marca-new' %}">
+          <i class="far fa-calendar-plus"></i> Nueva Marca</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Nueva funcion</a>
+      </div>
+    </div>
+  </div>
+  <!-- Card Body -->
+  <div class="card-body">
+    {% if not marcas %}
+    <div class="alert alert-info">No hay Marcas</div>
+    {% else %}
+
+    <table class="table table-striped-hover" id="MyTable">
+      <thead>
+        <th>ID</th>
+        <th>Descripcion</th>
+        <th>Estado</th>
+        <th>Fecha creacion</th>
+        <th>Fecha modificacion</th>
+        <th class="all">Acciones</th>
+      </thead>
+
+      <tbody>
+        {% for marca in marcas %}
+        <tr>
+          <td>{{marca.id}}</td>
+          <td>{{marca.descripcion}}</td>
+          <td>{{marca.estado |yesno:"Activo, Inactivo"}}</td>
+          <td>{{marca.fcreacion | date:"d/m/Y H:i:s"}}</td>
+          <td>{{marca.fmodificacion | date:"d/m/Y H:i:s"}}</td>
+
+          <td>
+            <a
+              href="{% url 'inventario:marca-edit' marca.id %}"
+              class="btn btn-warning btn-circle"
+              role="button"
+              ><i class="far fa-edit"></i
+            ></a>
+
+            {% if marca.estado %}
+            
+              <a href="{% url 'inventario:marca-disable' marca.id %}" class="btn btn-danger btn-circle" role="button">
+                <i class="far fa-thumbs-down"></i
+              ></a>
+            {% else %}
+              <a href="{% url 'inventario:marca-enable' marca.id %}" class="btn btn-success btn-circle" role="button">
+              <i class="far fa-thumbs-up"></i
+              ></a>
+            {% endif %}
+              
+
+          </td>
+        </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock pagecontent %}
+
+{% block js %}
+
+<script>
+  $(document).ready(function(){
+    $('#MyTable').DataTable();
+  });
+</script>
+
+{% endblock js %}
