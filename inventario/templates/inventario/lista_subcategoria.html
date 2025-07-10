@@ -1,0 +1,95 @@
+{% extends "base/base.html" %} 
+{% load static %}
+
+{% block pagecontent %}
+
+<div class="card shadow mb-4">
+  <!-- Card Header - Dropdown -->
+  <div
+    class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+  >
+    <h6 class="m-0 font-weight-bold text-primary">Lista de Sub categorias</h6>
+    <div class="dropdown no-arrow">
+      <a
+        class="dropdown-toggle"
+        href="#"
+        role="button"
+        id="dropdownMenuLink"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+      </a>
+      <div
+        class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+        aria-labelledby="dropdownMenuLink"
+      >
+        <div class="dropdown-header">Acciones:</div>
+        <a class="dropdown-item" href="{% url 'inventario:subcategoria-new' %}"> <i class="far fa-calendar-plus"></i> Nueva Sub Categoria</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Something else here</a>
+      </div>
+    </div>
+  </div>
+  <!-- Card Body -->
+  <div class="card-body">
+    
+    {% if not subcategorias %} 
+      <div class="alert alert-info">
+        No hay Sub Categorias
+      </div>
+    {% else %}
+ 
+    <table class="table table-striped-hover" id="MyTable" >
+      <thead>
+        <th>ID</th>
+        <th>Padre</th>
+        <th>Descripcion</th>
+        <th>Estado</th>
+        <th>Fecha creacion</th>
+        <th>Fecha modificacion</th>
+        <th class="all">Acciones</th>
+      </thead>
+
+      <tbody>
+        {% for subcategoria in subcategorias %}
+        <tr>
+            
+          <td>{{subcategoria.id}}</td>
+          <td>{{subcategoria.categoriapadre}}</td>
+          <td>{{subcategoria.descripcion}}</td>
+          <td>{{subcategoria.estado |yesno:"Activo, Inactivo"}}</td>
+          <td>{{subcategoria.fcreacion | date:"d/m/Y H:i:s"}}</td>
+          <td>{{subcategoria.fmodificacion | date:"d/m/Y H:i:s"}}</td>
+
+          <td>
+            <a href="{% url 'inventario:subcategoria-edit' subcategoria.id %}" class="btn btn-warning btn-circle" role="button"
+            ><i class="far fa-edit"></i
+          ></a>
+            
+          <a href="{% url 'inventario:subcategoria-delete' subcategoria.id %}" class="btn btn-danger btn-circle" role="button"
+            ><i class="far fa-trash-alt"></i
+          ></a>
+        
+          </td>
+        </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+  </div>
+</div>
+{% endblock pagecontent %} 
+
+{% block js %}
+
+<script>
+  $(document).ready(function(){
+    $('#MyTable').DataTable();
+  });
+</script>
+
+{% endblock js %}
