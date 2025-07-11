@@ -1,0 +1,38 @@
+{% extends "base/base.html" %} 
+{% block pagecontent %}
+
+<form method="POST" class="form-inline">
+  {% csrf_token %}
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-bottom-info shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
+              Desea volver a activar la Unidad de medida:
+              <span>{{unimedida.descripcion}} </span>
+            </div>
+
+            <div class="dropdown-divider"></div>
+
+            <button type="submit" class="btn btn-success">Si, Activar</button>
+            <div class="dropdown-divider"></div>
+            <a href=" {% url 'inventario:unimedidas' %}" class="btn btn-danger"
+              ><i class="fas fa-undo"></i>Cancelar</a
+            >
+          </div>
+
+          <div class="col-auto">
+            <i
+              class="fas fa-calendar fa-2x text-gray-300"
+              aria-hidden="true"
+            ></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+{% endblock pagecontent %} 
+{% block footer %}{% endblock footer %}

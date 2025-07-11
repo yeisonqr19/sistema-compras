@@ -3,8 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from inventario.models import Categoria, SubCategoria, Marca
-from inventario.forms import CategoriaForm, SubCategoriaForm, MarcaForm
+from inventario.models import Categoria, SubCategoria, Marca, UnidadesMedidas
+from inventario.forms import CategoriaForm, SubCategoriaForm, MarcaForm, UnidadesMedidasForm
 
 class CategoriaView(LoginRequiredMixin, ListView):
     
@@ -150,3 +150,66 @@ def marca_enable(request, marca_id):
         return redirect("inventario:marcas")
     
     return render(request, template_name, ctx)
+
+class UniMedidasView(LoginRequiredMixin, ListView):
+     model = UnidadesMedidas
+     login_url = "/login/"
+     template_name = "inventario/lista_unidadesmedidas.html"
+     context_object_name = "unimedidas"
+     
+class UniMedidasAdd(LoginRequiredMixin, CreateView):
+    model = UnidadesMedidas
+    login_url = "/login/"
+    template_name = "inventario/add_unidadesmedidas.html"
+    form_class = UnidadesMedidasForm
+    success_url = reverse_lazy("inventario:unimedidas")
+    
+    def form_valid(self, form):
+        form.instance.ucreacion = self.request.user
+        return super().form_valid(form)
+    
+class UniMedidasEdit(LoginRequiredMixin, UpdateView):
+    model = UnidadesMedidas
+    login_url = "/login/"
+    template_name = "inventario/add_unidadesmedidas.html"
+    form_class = UnidadesMedidasForm
+    success_url = reverse_lazy("inventario:unimedidas")
+    context_object_name = "unimedida"
+    
+    def form_valid(self, form):
+        form.instance.umodificacion = self.request.user.id
+        return super().form_valid(form)
+
+@login_required
+def unimedida_disable(request, unimedida_id):
+    
+    unimedida = get_object_or_404(UnidadesMedidas, id = unimedida_id)
+    
+    ctx = {
+        'unimedida' : unimedida,
+    }
+    
+    if request.method == "POST":
+        unimedida.estado = False
+        unimedida.save()
+        return redirect("inventario:unimedidas")
+    
+    return render(request, "inventario/disable_unimedida.html", ctx)
+
+
+@login_required
+def unimedida_enable(request, unimedida_id):
+    
+    unimedida = get_object_or_404(UnidadesMedidas, id = unimedida_id)
+    
+    ctx = {
+        'unimedida':unimedida,
+    }
+    
+    if request.method == "POST":
+        unimedida.estado = True
+        unimedida.save()
+        return redirect("inventario:unimedidas")
+    
+    return render(request, "inventario/enable_unimedida.html", ctx)
+
