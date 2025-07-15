@@ -1,0 +1,108 @@
+{% extends "base/base.html" %} 
+
+{% block pagecontent %}
+
+<div class="card shadow mb-4">
+  <!-- Card Header - Dropdown -->
+  <div
+    class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+  >
+    <h6 class="m-0 font-weight-bold text-primary">Listado de Productos</h6>
+    <div class="dropdown no-arrow">
+      <a
+        class="dropdown-toggle"
+        href="#"
+        role="button"
+        id="dropdownMenuLink"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+      </a>
+      <div
+        class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+        aria-labelledby="dropdownMenuLink"
+      >
+        <div class="dropdown-header">Acciones:</div>
+        <a class="dropdown-item" href="#" onClick="return abrir_modal('{% url 'inventario:producto-new' %}')">
+          <i class="far fa-calendar-plus"></i> Nuevo Producto</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Nueva funcion</a>
+      </div>
+    </div>
+  </div>
+  <!-- Card Body -->
+  <div class="card-body">
+    {% if not productos %}
+    <div class="alert alert-info">No hay Productos</div>
+    {% else %}
+
+    <table class="table table-striped-hover" id="MyTable">
+      <thead>
+        <th>Sub. Categoria</th>
+        <th>Codigo</th>
+        <th>C. Barra</th>
+        <th>Descripcion</th>
+        <th>Existencia</th>
+        <th>Marca</th>
+        <th>U. de medida</th>
+        <th>Estado</th>
+        <th class="all">Acciones</th>
+      </thead>
+
+      <tbody>
+        {% for producto in productos %}
+        <tr>
+          <td>{{producto.subcategoria}}</td>
+          <td>{{producto.codigo}}</td>
+          <td>{{producto.codigo_barra}}</td>
+          <td>{{producto.descripcion}}</td>
+          <td>{{producto.existencia_producto}}</td>
+          <td>{{producto.marca}}</td>
+          <td>{{producto.unidad_medida}}</td>
+          <td>{{producto.estado |yesno:"Activo, Inactivo"}}</td>
+          <td>
+            <a
+              href="#"
+              class="btn btn-warning btn-circle"
+              role="button"
+
+              onClick="return abrir_modal('{% url 'inventario:producto-edit' producto.id %}')"
+
+              ><i class="far fa-edit"></i
+            ></a>
+
+            {% if producto.estado %}
+            
+              <a href="{% url 'inventario:producto-disable' producto.id %}" class="btn btn-danger btn-circle" role="button">
+                <i class="far fa-thumbs-down"></i
+              ></a>
+            {% else %}
+              <a href="{% url 'inventario:producto-enable' producto.id %}" class="btn btn-success btn-circle" role="button">
+              <i class="far fa-thumbs-up"></i
+              ></a>
+            {% endif %}
+              
+
+          </td>
+        </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock pagecontent %}
+
+{% block js %}
+
+<script>
+  $(document).ready(function(){
+    $('#MyTable').DataTable();
+  });
+</script>
+
+{% endblock js %}

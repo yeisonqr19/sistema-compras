@@ -1,3 +1,5 @@
+{% load static %}
+
 <nav
   class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
 >
@@ -231,6 +233,7 @@
 
     <!-- Nav Item - User Information -->
     <li class="nav-item dropdown no-arrow">
+      
       <a
         class="nav-link dropdown-toggle"
         href="#"
@@ -245,7 +248,7 @@
         >
         <img
           class="img-profile rounded-circle"
-          src="https://source.unsplash.com/QAB-WJcbgJk/60x60"
+          src=" {% static 'inventario/img/perfil.jpg' %} "
         />
       </a>
       <!-- Dropdown - User Information -->

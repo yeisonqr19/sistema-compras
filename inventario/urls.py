@@ -1,5 +1,5 @@
 from django.urls import path
-from inventario.views import CategoriaView, CategoriaNew, CategoriaEdit, CategoriaDelete, SubCategoriaView, SubCategoriaAdd, SubCategoriaEdit, SubCategoriaDelete, MarcaView, MarcaAdd, MarcaEdit, marca_disable, marca_enable, UniMedidasView, UniMedidasAdd, UniMedidasEdit,unimedida_disable, unimedida_enable
+from inventario.views import CategoriaView, CategoriaNew, CategoriaEdit, CategoriaDelete, SubCategoriaView, SubCategoriaAdd, SubCategoriaEdit, SubCategoriaDelete, MarcaView, MarcaAdd, MarcaEdit, marca_disable, marca_enable, UniMedidasView, UniMedidasAdd, UniMedidasEdit,unimedida_disable, unimedida_enable, ProductoView, ProductoAdd, ProductoEdit, producto_enable, producto_disable
 
 app_name = "inventario"
 
@@ -25,5 +25,12 @@ urlpatterns = [
     path("unimedidas/edit/<int:pk>", UniMedidasEdit.as_view(), name="unimedida-edit"),
     path("unimedidas/disable/<int:unimedida_id>",unimedida_disable, name="unimedida-disable"),
     path("unimedidas/enable/<int:unimedida_id>",unimedida_enable, name="unimedida-enable"),
+    
+    path("productos/", ProductoView.as_view(), name="productos"),
+    path("productos/new",ProductoAdd.as_view(), name="producto-new" ),
+    path("productos/edit/<int:pk>", ProductoEdit.as_view(), name="producto-edit"),
+    path("productos/disable/<int:producto_id>", producto_disable, name="producto-disable"),
+    path("productos/enable/<int:producto_id>", producto_enable, name="producto-enable"),
+    
     
 ]

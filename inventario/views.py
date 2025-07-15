@@ -3,8 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from inventario.models import Categoria, SubCategoria, Marca, UnidadesMedidas
-from inventario.forms import CategoriaForm, SubCategoriaForm, MarcaForm, UnidadesMedidasForm
+from inventario.models import Categoria, SubCategoria, Marca, UnidadesMedidas, Producto
+from inventario.forms import CategoriaForm, SubCategoriaForm, MarcaForm, UnidadesMedidasForm, ProductosForm
 
 class CategoriaView(LoginRequiredMixin, ListView):
     
@@ -213,3 +213,68 @@ def unimedida_enable(request, unimedida_id):
     
     return render(request, "inventario/enable_unimedida.html", ctx)
 
+class ProductoView(LoginRequiredMixin, ListView):
+    
+    model = Producto
+    login_url = "/login/"
+    template_name = "inventario/lista_productos.html"
+    context_object_name = "productos"
+    
+
+class ProductoAdd(LoginRequiredMixin, CreateView):
+    
+    model = Producto
+    login_url = "/login/"
+    template_name = "inventario/add_producto.html"
+    success_url = reverse_lazy("inventario:productos")
+    form_class = ProductosForm
+    
+    def form_valid(self, form):
+        form.instance.ucreacion = self.request.user
+        return super().form_valid(form)
+    
+class ProductoEdit(LoginRequiredMixin, UpdateView):
+    
+    model = Producto
+    login_url = "/login/"
+    template_name = "inventario/add_producto.html"
+    context_object_name = "producto"
+    success_url = reverse_lazy("inventario:productos")
+    form_class = ProductosForm
+    
+    def form_valid(self, form):
+        form.instance.umodificacion = self.request.user.id
+        return super().form_valid(form)
+    
+@login_required
+def producto_disable(request, producto_id):
+    
+    producto = get_object_or_404(Producto, id=producto_id)
+    
+    ctx = {
+        'producto':producto,
+    }
+    
+    if request.method == "POST":
+        producto.estado = False
+        producto.save()
+        return redirect("inventario:productos")
+
+    return render(request, "inventario/disable_producto.html", ctx)
+
+@login_required
+def producto_enable(request, producto_id):
+    
+    producto = get_object_or_404(Producto, id = producto_id)
+    
+    ctx = {
+        'producto':producto,
+    }
+    
+    if request.method == "POST":
+        producto.estado = True
+        producto.save()
+        return redirect("inventario:productos")
+    
+    return render(request, "inventario/enable_producto.html", ctx)
+    
